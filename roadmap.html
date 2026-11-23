@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dungeon Away! Roadmap</title>
+<!-- Unlisted: reachable by its address only, kept out of search results -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#080815">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400..700&family=Nunito+Sans:wght@400;600;700&display=swap">
+<style>
+  :root {
+    --page: #080815;
+    --navy: #15233B;
+    --ink: #3A4658;
+    --muted: #5B6676;
+    --paper: #F5F6F1;
+    --card: #FCFCFA;
+    --line: #DCE1D9;
+    --mint: #34D399;
+    --teal: #0F9F8C;
+    --teal-text: #0B7A6C;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { min-height: 100%; }
+  body {
+    background: var(--page);
+    font-family: 'Nunito Sans', Arial, sans-serif;
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    padding: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* The slide: a 16:9 card sized to the window. Every length is a share of its width (cqw), so it keeps the
+     slide's proportions at any size; 1cqw is 19.2px of the original 1920px slide. */
+  .slide {
+    width: min(100%, calc((100vh - 32px) * 16 / 9));
+    aspect-ratio: 16 / 9;
+    container-type: inline-size;
+    background: var(--paper);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .inner {
+    height: 100%;
+    padding: 6.667cqw;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5cqw;
+  }
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5cqw;
+  }
+  .titles { display: flex; flex-direction: column; gap: 0.625cqw; }
+  .eyebrow {
+    font-size: 1.354cqw;
+    font-weight: 700;
+    letter-spacing: 0.156cqw;
+    color: var(--teal-text);
+  }
+  h1 {
+    font-family: 'Fredoka', 'Trebuchet MS', sans-serif;
+    font-size: 3.75cqw;
+    font-weight: 600;
+    line-height: 1.05;
+    color: var(--navy);
+  }
+  .sub { font-size: 1.667cqw; color: var(--muted); }
+  .logo { width: 20.833cqw; height: auto; flex: none; }
+
+  .phases { display: flex; gap: 2.083cqw; }
+  .phase {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--card);
+    border: max(1px, 0.104cqw) solid var(--line);
+    border-radius: 1.25cqw;
+    overflow: hidden;
+  }
+  .bar { height: 0.625cqw; }
+  .bar-1 { background: var(--mint); }
+  .bar-2 { background: var(--teal); }
+  .bar-3 { background: var(--navy); }
+  .phase-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.729cqw;
+    padding: 1.667cqw 2.083cqw 1.875cqw;
+  }
+  .tagrow { display: flex; align-items: center; gap: 0.833cqw; }
+  .num {
+    font-size: 1.25cqw;
+    font-weight: 700;
+    letter-spacing: 0.104cqw;
+    color: var(--teal-text);
+  }
+  .now {
+    font-size: 1.25cqw;
+    font-weight: 700;
+    color: var(--navy);
+    background: var(--mint);
+    padding: 0.104cqw 0.833cqw;
+    border-radius: 1.25cqw;
+  }
+  h2 {
+    font-family: 'Fredoka', 'Trebuchet MS', sans-serif;
+    font-size: 2.292cqw;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--navy);
+  }
+  .where { font-size: 1.354cqw; font-weight: 600; color: var(--muted); }
+  .points {
+    font-size: 1.354cqw;
+    line-height: 1.4;
+    padding-left: 1.667cqw;
+    margin-top: 0.208cqw;
+  }
+  .goal {
+    font-size: 1.25cqw;
+    color: var(--navy);
+    border-top: max(1px, 0.104cqw) solid var(--line);
+    padding-top: 0.833cqw;
+    margin-top: 0.313cqw;
+  }
+
+  /* Phones and narrow windows: the same content as a scrolling page, phases stacked */
+  @media (max-width: 760px) {
+    body { display: block; padding: 0; }
+    .slide { width: 100%; aspect-ratio: auto; border-radius: 0; min-height: 100vh; }
+    .inner { padding: 28px 20px 40px; gap: 24px; }
+    .head { flex-direction: column-reverse; align-items: flex-start; gap: 16px; }
+    .titles { gap: 6px; }
+    .eyebrow { font-size: 14px; letter-spacing: 2px; }
+    h1 { font-size: 34px; }
+    .sub { font-size: 18px; }
+    .logo { width: min(260px, 70vw); }
+    .phases { flex-direction: column; gap: 16px; }
+    .phase { border-width: 1px; border-radius: 16px; }
+    .bar { height: 8px; }
+    .phase-body { gap: 8px; padding: 18px 20px 20px; }
+    .tagrow { gap: 10px; }
+    .num, .now { font-size: 14px; }
+    .num { letter-spacing: 1.5px; }
+    .now { padding: 2px 10px; border-radius: 12px; }
+    h2 { font-size: 26px; }
+    .where { font-size: 16px; }
+    .points { font-size: 17px; padding-left: 22px; margin-top: 2px; }
+    .goal { font-size: 16px; padding-top: 10px; margin-top: 4px; border-top-width: 1px; }
+  }
+</style>
+</head>
+<body>
+<main class="slide">
+  <div class="inner">
+    <header class="head">
+      <div class="titles">
+        <p class="eyebrow">ROADMAP</p>
+        <h1>Path to a live F2P game</h1>
+        <p class="sub">Steam and mobile, in three phases</p>
+      </div>
+      <img class="logo" src="dungeon-away-logo.webp" width="954" height="598" alt="Dungeon Away!">
+    </header>
+    <section class="phases">
+      <article class="phase">
+        <div class="bar bar-1"></div>
+        <div class="phase-body">
+          <div class="tagrow"><p class="num">PHASE 1</p><p class="now">Now</p></div>
+          <h2>Soft launch</h2>
+          <p class="where">Mobile, test markets</p>
+          <ul class="points">
+            <li>One world, full loop</li>
+            <li>30+ heroes in 5 roles</li>
+            <li>Rewarded ads only</li>
+            <li>Tune retention, pacing</li>
+          </ul>
+          <p class="goal"><b>Goal:</b> strong D1/D7 retention</p>
+        </div>
+      </article>
+      <article class="phase">
+        <div class="bar bar-2"></div>
+        <div class="phase-body">
+          <div class="tagrow"><p class="num">PHASE 2</p></div>
+          <h2>Global launch</h2>
+          <p class="where">iOS, Android and Steam</p>
+          <ul class="points">
+            <li>World map, new worlds</li>
+            <li>Shop and starter packs</li>
+            <li>Ad-free pass</li>
+            <li>Cross-platform saves</li>
+          </ul>
+          <p class="goal"><b>Goal:</b> scale installs, revenue</p>
+        </div>
+      </article>
+      <article class="phase">
+        <div class="bar bar-3"></div>
+        <div class="phase-body">
+          <div class="tagrow"><p class="num">PHASE 3</p></div>
+          <h2>Live game</h2>
+          <p class="where">Free-to-play live ops</p>
+          <ul class="points">
+            <li>Limited-time events</li>
+            <li>Season pass, new heroes</li>
+            <li>Guilds and leaderboards</li>
+            <li>Regular content drops</li>
+          </ul>
+          <p class="goal"><b>Goal:</b> long-term retention</p>
+        </div>
+      </article>
+    </section>
+  </div>
+</main>
+</body>
+</html>
