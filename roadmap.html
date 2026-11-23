@@ -6,26 +6,27 @@
 <title>Dungeon Away!</title>
 <!-- Unlisted: reachable by its address only, kept out of search results -->
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0B0D17">
+<meta name="theme-color" content="#15120E">
 <link rel="icon" type="image/png" href="icon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=Alegreya+Sans:wght@400;500;700&display=swap">
 <style>
   :root {
-    --page: #0B0D17;
-    --paper: #F4F2EC;
-    --text: #1E2533;
-    --muted: #5E6573;
-    --rule: #D6D3CB;
-    --green: #2BB673;
+    --page: #15120E;
+    --paper: #F3EEE2;
+    --ink: #2B241C;
+    --muted: #6B5F50;
+    --rule: #D3C9B5;
+    --gold: #B8862B;
+    --serif: 'Alegreya', Georgia, serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--page);
-    color: var(--text);
-    font-family: 'Nunito Sans', Arial, sans-serif;
+    color: var(--ink);
+    font-family: 'Alegreya Sans', 'Trebuchet MS', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -36,18 +37,26 @@
   img { display: block; }
 
   /* Each slide is 16:9 and sized to the window. Lengths are shares of its width (cqw): 1cqw is 19.2px on a
-     1920px slide. */
+     1920px slide. A hairline inset frame gives the page a faint old-manual feel. */
   .slide {
+    position: relative;
     width: min(100%, calc((100vh - 48px) * 16 / 9));
     aspect-ratio: 16 / 9;
     container-type: inline-size;
     background: var(--paper);
-    border-radius: 10px;
+    border-radius: 8px;
     overflow: hidden;
   }
+  .slide::after {
+    content: "";
+    position: absolute;
+    inset: 1.667cqw;
+    border: 0.104cqw solid rgba(43, 36, 28, 0.16);
+    pointer-events: none;
+  }
   .inner { height: 100%; padding: 6.667cqw; display: flex; flex-direction: column; }
-  h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
-  h2 { font-size: 2.708cqw; }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 700; line-height: 1.1; }
+  h2 { font-size: 3.125cqw; }
   p { font-size: 1.458cqw; line-height: 1.5; }
   .muted { color: var(--muted); }
 
@@ -55,45 +64,96 @@
   .game .inner { flex-direction: row; align-items: center; gap: 5cqw; }
   .game-text { flex: 1; }
   .game-logo { width: 14.583cqw; height: auto; margin-bottom: 2.083cqw; }
-  .game h1 { font-size: 2.917cqw; margin-bottom: 1.667cqw; }
+  .game h1 { font-size: 3.229cqw; margin-bottom: 1.667cqw; }
   .game .lede { max-width: 48cqw; }
   .game .facts { margin-top: 1.667cqw; font-size: 1.25cqw; }
-  .shot { height: 39.583cqw; width: auto; border-radius: 1.25cqw; box-shadow: 0 0.625cqw 2.083cqw rgba(11, 13, 23, 0.22); }
+  .shot { height: 39.583cqw; width: auto; border-radius: 1.25cqw; box-shadow: 0 0.625cqw 2.083cqw rgba(21, 18, 14, 0.25); }
 
-  /* Heroes and monsters */
-  .cast h2 { margin-bottom: 1.042cqw; }
-  .cast .lede { max-width: 70cqw; font-size: 1.354cqw; }
-  .heroes { display: grid; grid-template-columns: repeat(8, 1fr); gap: 1.25cqw; margin-top: 2.917cqw; }
-  .monsters { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1.25cqw; margin-top: 2.5cqw; }
+  /* Heroes and monsters: a dungeon room, built from the game's own wall, floor and torch art */
+  .cast .lede { margin-top: 0.833cqw; font-size: 1.354cqw; }
+  .stage {
+    position: relative;
+    margin-top: 1.875cqw;
+    height: 23.438cqw;
+    border-radius: 0.833cqw;
+    overflow: hidden;
+    background-color: #2D2F36;
+    background-image: radial-gradient(ellipse at 50% 35%, rgba(255, 190, 110, 0.20), rgba(0, 0, 0, 0.35) 75%), url(pitch/wall-dark.webp);
+    background-size: 100% 100%, 6.667cqw 6.667cqw;
+  }
+  .floor {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 5.208cqw;
+    background: #3A3C44 url(pitch/floor.webp) repeat-x;
+    background-size: auto 2.917cqw;
+    box-shadow: 0 -0.208cqw 0.625cqw rgba(0, 0, 0, 0.35);
+  }
+  .torch { position: absolute; top: 1.25cqw; height: 6.25cqw; width: auto; }
+  .torch-l { left: 30%; }
+  .torch-r { right: 30%; }
+  .party {
+    position: absolute;
+    left: 2.5cqw;
+    right: 2.5cqw;
+    bottom: 1.25cqw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .heroes, .monsters { display: flex; align-items: flex-end; }
+  .heroes .figure + .figure { margin-left: -2.083cqw; }
+  .monsters .figure + .figure { margin-left: 1.25cqw; }
   .figure { text-align: center; }
-  .art { display: flex; align-items: flex-end; justify-content: center; margin-bottom: 0.625cqw; }
-  .heroes .art { height: 11.458cqw; }
-  .monsters .art { height: 6.771cqw; }
-  .art img { height: 100%; width: auto; max-width: 100%; object-fit: contain; }
-  .name { font-size: 1.354cqw; font-weight: 700; line-height: 1.3; }
-  .note { font-size: 1.146cqw; color: var(--muted); line-height: 1.3; }
+  .heroes img { height: 12.5cqw; width: auto; margin: 0 auto; }
+  .monsters img { height: 10.417cqw; width: auto; margin: 0 auto; }
+  .monsters img.small { height: 7.292cqw; }
+  .name { font-family: var(--serif); font-weight: 700; font-size: 1.146cqw; color: #F3EEE2; margin-top: 0.417cqw; text-shadow: 0 0.104cqw 0.208cqw rgba(0, 0, 0, 0.6); }
+  .roles { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.667cqw; margin-top: 1.875cqw; }
+  .role { display: flex; align-items: center; gap: 0.833cqw; }
+  .role img { width: 3.75cqw; height: 3.75cqw; flex: none; }
+  .role h3 { font-size: 1.354cqw; }
+  .role p { font-size: 1.146cqw; line-height: 1.3; color: var(--muted); }
 
-  /* Core loop */
-  .loop h2 { margin-bottom: 3.333cqw; }
-  .steps { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; column-gap: 1.25cqw; }
-  .step { border-top: 0.104cqw solid var(--text); padding-top: 1.042cqw; }
-  .step h3 { font-size: 1.875cqw; margin-bottom: 0.417cqw; }
-  .step p { font-size: 1.354cqw; }
-  .to { font-size: 1.875cqw; color: var(--muted); padding-top: 0.938cqw; }
-  .again { margin-top: 1.667cqw; color: var(--muted); font-size: 1.354cqw; }
-  .loop h3.sub { font-size: 1.667cqw; margin-top: 4.167cqw; margin-bottom: 1.042cqw; }
-  .long { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.333cqw; }
-  .long p { font-size: 1.354cqw; }
+  /* Core loop: four steps around the treasury, joined by dotted map-route arrows */
+  .loop .body { display: flex; gap: 3.333cqw; margin-top: 2.083cqw; }
+  .diagram { position: relative; width: 50cqw; height: 34.375cqw; flex: none; }
+  .diagram svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .node { position: absolute; width: 15.625cqw; text-align: center; }
+  .n1 { left: 6.25%; top: 0; }
+  .n2 { left: 62.5%; top: 0; }
+  .n3 { left: 62.5%; top: 52.727%; }
+  .n4 { left: 6.25%; top: 52.727%; }
+  .node-art { height: 7.813cqw; display: flex; align-items: flex-end; justify-content: center; gap: 0.417cqw; }
+  .node h3 { font-size: 1.667cqw; margin-top: 0.625cqw; }
+  .node p { font-size: 1.146cqw; line-height: 1.35; color: var(--muted); margin-top: 0.208cqw; }
+  .fight-hero { height: 6.771cqw; width: auto; }
+  .fight-slime { height: 3.646cqw; width: auto; }
+  .cart { width: 7.813cqw; height: auto; }
+  .up { height: 5.729cqw; width: auto; }
+  .door { height: 6.667cqw; width: auto; }
+  .hub { position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%); width: 12.5cqw; text-align: center; }
+  .hub img { width: 7.292cqw; height: auto; margin: 0 auto; }
+  .hub p { font-size: 1.146cqw; line-height: 1.35; color: var(--muted); margin-top: 0.417cqw; }
+  .long { flex: 1; }
+  .long h3.sub { font-size: 1.875cqw; margin-bottom: 1.458cqw; }
+  .long-item { display: flex; gap: 1.25cqw; align-items: flex-start; margin-bottom: 1.667cqw; }
+  .long-item img { width: 5cqw; height: auto; flex: none; }
+  .long-item img.crown { width: 3.75cqw; margin: 0.417cqw 0.625cqw 0; }
+  .long-item h4 { font-family: var(--serif); font-weight: 700; font-size: 1.563cqw; }
+  .long-item p { font-size: 1.25cqw; line-height: 1.4; }
 
   /* Roadmap */
   .roadmap h2 { margin-bottom: 3.75cqw; }
   .line { position: relative; height: 0.729cqw; margin-bottom: 1.875cqw; }
   .line::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 0.104cqw solid var(--rule); }
   .dots { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.333cqw; }
-  .dots span { width: 0.729cqw; height: 0.729cqw; border-radius: 50%; background: var(--text); }
-  .dots span.now { background: var(--green); }
+  .dots span { width: 0.729cqw; height: 0.729cqw; border-radius: 50%; background: var(--ink); }
+  .dots span.now { background: var(--gold); }
   .phases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3.333cqw; }
-  .phase h3 { font-size: 1.875cqw; }
+  .phase h3 { font-size: 1.979cqw; }
   .phase .where { font-size: 1.25cqw; color: var(--muted); margin-top: 0.208cqw; margin-bottom: 1.25cqw; }
   .phase ul { list-style: none; }
   .phase li { font-size: 1.354cqw; line-height: 1.6; }
@@ -103,37 +163,59 @@
   @media (max-width: 760px) {
     body { padding: 0; gap: 0; }
     .slide { width: 100%; aspect-ratio: auto; border-radius: 0; border-bottom: 6px solid var(--page); }
-    .inner { padding: 32px 22px 40px; }
-    h2 { font-size: 28px; }
+    .slide::after { inset: 8px; border-width: 1px; }
+    .inner { padding: 34px 24px 40px; }
+    h2 { font-size: 30px; }
     p { font-size: 16px; }
     .game .inner { flex-direction: column; align-items: stretch; gap: 28px; }
     .game-logo { width: min(220px, 60vw); margin-bottom: 18px; }
-    .game h1 { font-size: 26px; margin-bottom: 12px; }
+    .game h1 { font-size: 28px; margin-bottom: 12px; }
     .game .lede { max-width: none; }
     .game .facts { margin-top: 12px; font-size: 15px; }
-    .shot { height: auto; width: min(250px, 68vw); align-self: center; border-radius: 16px; box-shadow: 0 6px 20px rgba(11, 13, 23, 0.22); }
-    .cast h2 { margin-bottom: 10px; }
-    .cast .lede { max-width: none; font-size: 16px; }
-    .heroes { grid-template-columns: repeat(4, 1fr); gap: 14px 8px; margin-top: 24px; }
-    .monsters { grid-template-columns: repeat(3, 1fr); gap: 16px 8px; margin-top: 24px; }
-    .heroes .art { height: 84px; }
-    .monsters .art { height: 60px; }
-    .art { margin-bottom: 4px; }
-    .name { font-size: 14px; }
-    .note { font-size: 12px; }
-    .loop h2 { margin-bottom: 20px; }
-    .steps { grid-template-columns: 1fr; row-gap: 14px; }
-    .to { display: none; }
-    .step { border-top-width: 1px; padding-top: 10px; }
-    .step h3 { font-size: 19px; margin-bottom: 2px; }
-    .step p, .again, .long p { font-size: 15px; }
-    .again { margin-top: 14px; }
-    .loop h3.sub { font-size: 19px; margin-top: 28px; margin-bottom: 8px; }
-    .long { grid-template-columns: 1fr; gap: 10px; }
+    .shot { height: auto; width: min(250px, 68vw); align-self: center; border-radius: 16px; box-shadow: 0 6px 20px rgba(21, 18, 14, 0.25); }
+
+    .cast .lede { font-size: 16px; margin-top: 8px; }
+    .stage-scroll { margin: 18px -24px 0; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .stage { width: 720px; height: 250px; margin: 0 24px; border-radius: 12px; background-size: 100% 100%, 64px 64px; }
+    .floor { height: 60px; background-size: auto 28px; }
+    .torch { top: 12px; height: 64px; }
+    .party { left: 18px; right: 18px; bottom: 12px; }
+    .heroes .figure + .figure { margin-left: -8px; }
+    .monsters .figure + .figure { margin-left: 10px; }
+    .heroes img { height: 132px; }
+    .monsters img { height: 100px; }
+    .monsters img.small { height: 72px; }
+    .name { font-size: 12px; margin-top: 4px; }
+    .roles { grid-template-columns: 1fr 1fr; gap: 14px 12px; margin-top: 20px; }
+    .role { gap: 8px; }
+    .role img { width: 40px; height: 40px; }
+    .role h3 { font-size: 15px; }
+    .role p { font-size: 13px; }
+
+    .loop .body { flex-direction: column; gap: 28px; margin-top: 18px; }
+    .diagram { position: static; width: auto; height: auto; display: flex; flex-direction: column; gap: 18px; }
+    .diagram svg { display: none; }
+    .node, .hub { position: static; width: auto; transform: none; display: grid; grid-template-columns: 84px 1fr; column-gap: 14px; align-items: center; text-align: left; }
+    .node-art { height: 64px; grid-row: span 2; }
+    .node h3 { font-size: 19px; margin-top: 0; align-self: end; }
+    .node p, .hub p { font-size: 15px; margin-top: 0; align-self: start; }
+    .fight-hero { height: 60px; }
+    .fight-slime { height: 32px; }
+    .cart { width: 74px; }
+    .up { height: 52px; }
+    .door { height: 60px; }
+    .hub img { width: 70px; margin: 0; grid-row: span 2; }
+    .long h3.sub { font-size: 20px; margin-bottom: 12px; }
+    .long-item { gap: 12px; margin-bottom: 14px; }
+    .long-item img { width: 56px; }
+    .long-item img.crown { width: 40px; margin: 4px 8px 0; }
+    .long-item h4 { font-size: 17px; }
+    .long-item p { font-size: 15px; }
+
     .roadmap h2 { margin-bottom: 20px; }
     .line { display: none; }
     .phases { grid-template-columns: 1fr; gap: 24px; }
-    .phase h3 { font-size: 20px; }
+    .phase h3 { font-size: 21px; }
     .phase .where { font-size: 14px; margin-bottom: 8px; }
     .phase li { font-size: 15px; }
     .phase .aim { font-size: 14px; margin-top: 8px; }
@@ -145,6 +227,7 @@
     body { background: none; padding: 0; gap: 0; display: block; }
     .slide { width: 1920px; height: 1080px; aspect-ratio: auto; border-radius: 0; break-after: page; }
     .shot { box-shadow: none; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   }
 </style>
 </head>
@@ -155,7 +238,7 @@
     <div class="game-text">
       <img class="game-logo" src="dungeon-away-logo.webp" width="954" height="598" alt="Dungeon Away!">
       <h1>Your heroes do the fighting. Your job is getting the gold home.</h1>
-      <p class="lede">Think Idle Miner Tycoon, but your workers are wizards, archers, beastcallers and a celestial phoenix. Send them into an ever-deepening stack of dungeons, watch the gold pile up, and keep your lift and cart hauling it to the treasury. Collect heroes, power them up, and pick the right crew for every dungeon. When the gold slows, ascend for a permanent boost and dig deeper.</p>
+      <p class="lede">Think Idle Miner Tycoon, but your workers are wizards, archers, beastcallers and a celestial phoenix. Send them into an ever-deepening stack of dungeons, watch the gold pile up, and keep your lift and cart hauling it up to the treasury. Collect heroes, power them up, and choose the right crew for every dungeon. When progress slows, start a fresh run with a permanent boost to all your gold, and dig deeper.</p>
       <p class="facts muted">An idle hero collector for iOS, Android and Steam. Free to play, and playable now on TestFlight.</p>
     </div>
     <img class="shot" src="pitch/gameplay.webp" width="585" height="1266" alt="Gameplay: heroes fighting monsters in a stack of dungeons, with the lift, cart and treasury at the top">
@@ -165,24 +248,35 @@
 <section class="slide cast" aria-label="Heroes and monsters">
   <div class="inner">
     <h2>Heroes and monsters</h2>
-    <p class="lede">More than thirty heroes to collect, across six rarities. Fighters earn more gold, haulers move it faster, merchants cut upgrade costs, timekeepers skip time, and heralds recharge the other heroes’ ultimates. Every dungeon has its own family of monsters.</p>
-    <div class="heroes">
-      <div class="figure"><div class="art"><img src="pitch/hero-thorne.webp" width="326" height="400" alt="Thorne"></div><p class="name">Thorne</p><p class="note">Uncommon fighter</p></div>
-      <div class="figure"><div class="art"><img src="pitch/hero-sylas.webp" width="307" height="400" alt="Sylas"></div><p class="name">Sylas</p><p class="note">Uncommon hauler</p></div>
-      <div class="figure"><div class="art"><img src="pitch/hero-kessa.webp" width="362" height="400" alt="Kessa"></div><p class="name">Kessa</p><p class="note">Uncommon herald</p></div>
-      <div class="figure"><div class="art"><img src="pitch/hero-elandra.webp" width="324" height="400" alt="Elandra"></div><p class="name">Elandra</p><p class="note">Rare timekeeper</p></div>
-      <div class="figure"><div class="art"><img src="pitch/hero-nareth.webp" width="324" height="400" alt="Nareth"></div><p class="name">Nareth</p><p class="note">Epic merchant</p></div>
-      <div class="figure"><div class="art"><img src="pitch/hero-saphira.webp" width="311" height="400" alt="Saphira"></div><p class="name">Saphira</p><p class="note">Epic herald</p></div>
-      <div class="figure"><div class="art"><img src="pitch/hero-garruk.webp" width="346" height="400" alt="Garruk"></div><p class="name">Garruk</p><p class="note">Legendary hauler</p></div>
-      <div class="figure"><div class="art"><img src="pitch/hero-ylko.webp" width="330" height="400" alt="Ylko"></div><p class="name">Ylko</p><p class="note">Ultimate fighter</p></div>
+    <p class="lede">More than thirty heroes to collect, from common to ultimate rarity, and a family of monsters waiting in every dungeon.</p>
+    <div class="stage-scroll">
+      <div class="stage">
+        <img class="torch torch-l" src="pitch/torch.webp" width="132" height="280" alt="">
+        <img class="torch torch-r" src="pitch/torch.webp" width="132" height="280" alt="">
+        <div class="floor"></div>
+        <div class="party">
+          <div class="heroes">
+            <div class="figure"><img src="pitch/hero-thorne.webp" width="326" height="400" alt="Thorne"><p class="name">Thorne</p></div>
+            <div class="figure"><img src="pitch/hero-sylas.webp" width="307" height="400" alt="Sylas"><p class="name">Sylas</p></div>
+            <div class="figure"><img src="pitch/hero-elandra.webp" width="324" height="400" alt="Elandra"><p class="name">Elandra</p></div>
+            <div class="figure"><img src="pitch/hero-nareth.webp" width="324" height="400" alt="Nareth"><p class="name">Nareth</p></div>
+            <div class="figure"><img src="pitch/hero-saphira.webp" width="311" height="400" alt="Saphira"><p class="name">Saphira</p></div>
+            <div class="figure"><img src="pitch/hero-ylko.webp" width="330" height="400" alt="Ylko"><p class="name">Ylko</p></div>
+          </div>
+          <div class="monsters">
+            <div class="figure"><img class="small" src="pitch/monster-slime.webp" width="420" height="300" alt="Green Slime"><p class="name">Green Slime</p></div>
+            <div class="figure"><img src="pitch/monster-golem.webp" width="205" height="300" alt="Ember Golem"><p class="name">Ember Golem</p></div>
+            <div class="figure"><img src="pitch/monster-wraith.webp" width="261" height="300" alt="Shadow Wraith"><p class="name">Shadow Wraith</p></div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="monsters">
-      <div class="figure"><div class="art"><img src="pitch/monster-slime.webp" width="420" height="300" alt="Green Slime"></div><p class="name">Green Slime</p><p class="note">Slime Pit</p></div>
-      <div class="figure"><div class="art"><img src="pitch/monster-skeleton.webp" width="277" height="300" alt="Skeleton Warrior"></div><p class="name">Skeleton Warrior</p><p class="note">Bone Crypt</p></div>
-      <div class="figure"><div class="art"><img src="pitch/monster-golem.webp" width="205" height="300" alt="Ember Golem"></div><p class="name">Ember Golem</p><p class="note">Ember Forge</p></div>
-      <div class="figure"><div class="art"><img src="pitch/monster-eye.webp" width="221" height="300" alt="Verdant Eye"></div><p class="name">Verdant Eye</p><p class="note">Eye Grove</p></div>
-      <div class="figure"><div class="art"><img src="pitch/monster-orc.webp" width="294" height="300" alt="Orc Brute"></div><p class="name">Orc Brute</p><p class="note">Orc Camp</p></div>
-      <div class="figure"><div class="art"><img src="pitch/monster-wraith.webp" width="261" height="300" alt="Shadow Wraith"></div><p class="name">Shadow Wraith</p><p class="note">Wraith Hollow</p></div>
+    <div class="roles">
+      <div class="role"><img src="pitch/role-fighter.webp" width="256" height="256" alt=""><div><h3>Fighters</h3><p>Defeat monsters faster</p></div></div>
+      <div class="role"><img src="pitch/role-hauler.webp" width="256" height="256" alt=""><div><h3>Haulers</h3><p>Carry gold up faster</p></div></div>
+      <div class="role"><img src="pitch/role-merchant.webp" width="254" height="256" alt=""><div><h3>Merchants</h3><p>Make upgrades cheaper</p></div></div>
+      <div class="role"><img src="pitch/role-timekeeper.webp" width="256" height="255" alt=""><div><h3>Timekeepers</h3><p>Fast-forward time</p></div></div>
+      <div class="role"><img src="pitch/role-herald.webp" width="254" height="256" alt=""><div><h3>Heralds</h3><p>Recharge other heroes’ abilities</p></div></div>
     </div>
   </div>
 </section>
@@ -190,21 +284,48 @@
 <section class="slide loop" aria-label="Core loop">
   <div class="inner">
     <h2>The core loop</h2>
-    <div class="steps">
-      <div class="step"><h3>Fight</h3><p>Heroes defeat each dungeon’s monsters, and every win drops gold.</p></div>
-      <span class="to" aria-hidden="true">→</span>
-      <div class="step"><h3>Haul</h3><p>A lift and a cart carry the gold up to the treasury.</p></div>
-      <span class="to" aria-hidden="true">→</span>
-      <div class="step"><h3>Upgrade</h3><p>Gold levels up the dungeons, the lift and cart, and the heroes.</p></div>
-      <span class="to" aria-hidden="true">→</span>
-      <div class="step"><h3>Go deeper</h3><p>Opening the next dungeon brings a big jump in gold.</p></div>
-    </div>
-    <p class="again">Then it starts again, and the guild keeps earning while you’re away.</p>
-    <h3 class="sub">The long game</h3>
-    <div class="long">
-      <p><b>Collect.</b> Chests drop hero cards, which unlock ultimates and auto-fire and, over weeks, mastery.</p>
-      <p><b>Conquer.</b> Paying to conquer a dungeon multiplies its gold for good.</p>
-      <p><b>Ascend.</b> Starting the run over gives a permanent gold boost, and heroes keep their levels.</p>
+    <div class="body">
+      <div class="diagram">
+        <svg viewBox="0 0 960 660" aria-hidden="true">
+          <defs>
+            <marker id="head" markerUnits="userSpaceOnUse" markerWidth="22" markerHeight="22" refX="12" refY="11" orient="auto">
+              <path d="M0,0 L22,11 L0,22 z" fill="#8A7B66"/>
+            </marker>
+          </defs>
+          <g fill="none" stroke="#8A7B66" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 13">
+            <path d="M380,92 Q480,24 580,92" marker-end="url(#head)"/>
+            <path d="M915,215 Q960,330 915,410" marker-end="url(#head)"/>
+            <path d="M580,560 Q480,640 380,560" marker-end="url(#head)"/>
+            <path d="M45,410 Q0,330 45,215" marker-end="url(#head)"/>
+          </g>
+        </svg>
+        <div class="node n1">
+          <div class="node-art"><img class="fight-hero" src="pitch/hero-thorne.webp" width="326" height="400" alt=""><img class="fight-slime" src="pitch/monster-slime.webp" width="420" height="300" alt=""></div>
+          <h3>Fight</h3><p>Heroes battle each dungeon’s monsters, and every win drops gold.</p>
+        </div>
+        <div class="node n2">
+          <div class="node-art"><img class="cart" src="pitch/loop-cart.webp" width="300" height="257" alt=""></div>
+          <h3>Haul</h3><p>A lift and a cart carry the gold up to the treasury.</p>
+        </div>
+        <div class="node n3">
+          <div class="node-art"><img class="up" src="pitch/loop-upgrade.webp" width="256" height="256" alt=""></div>
+          <h3>Upgrade</h3><p>Spend gold on stronger dungeons, a faster lift and cart, and better heroes.</p>
+        </div>
+        <div class="node n4">
+          <div class="node-art"><img class="door" src="pitch/loop-door.webp" width="274" height="320" alt=""></div>
+          <h3>Go deeper</h3><p>Buy the next dungeon down for a big jump in gold.</p>
+        </div>
+        <div class="hub">
+          <img src="pitch/loop-treasury.webp" width="338" height="320" alt="">
+          <p>The treasury keeps filling while you’re away.</p>
+        </div>
+      </div>
+      <div class="long">
+        <h3 class="sub">The long game</h3>
+        <div class="long-item"><img src="pitch/long-chest.webp" width="256" height="201" alt=""><div><h4>Collect</h4><p>Chests give hero cards. Cards level heroes up and unlock their special abilities, until each is as strong as it can get.</p></div></div>
+        <div class="long-item"><img class="crown" src="pitch/long-crown.webp" width="64" height="64" alt=""><div><h4>Conquer</h4><p>Pay a large sum to conquer a dungeon, and its gold is multiplied for good.</p></div></div>
+        <div class="long-item"><img src="pitch/long-ascend.webp" width="256" height="249" alt=""><div><h4>Start over, stronger</h4><p>Reset your dungeons and gold for a new run with a permanent gold bonus. Heroes keep their levels.</p></div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -218,7 +339,7 @@
         <h3>Now: soft launch</h3>
         <p class="where">Mobile, in test markets</p>
         <ul>
-          <li>One world with the full loop</li>
+          <li>The first world, with the full loop</li>
           <li>30+ heroes in five roles</li>
           <li>Rewarded ads only</li>
           <li>Tuning retention and pacing</li>
