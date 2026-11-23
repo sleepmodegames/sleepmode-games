@@ -160,7 +160,7 @@
   .phase .aim { margin-top: 1.25cqw; font-size: 1.458cqw; color: var(--muted); }
 
   /* Phones and narrow windows: the same content as a scrolling page */
-  @media (max-width: 760px) {
+  @media screen and (max-width: 760px) {
     body { padding: 0; gap: 0; }
     .slide { width: 100%; aspect-ratio: auto; border-radius: 0; border-bottom: 6px solid var(--page); }
     .slide::after { inset: 8px; border-width: 1px; }
