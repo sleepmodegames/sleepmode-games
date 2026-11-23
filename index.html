@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sleep Mode Games — Coming Soon</title>
+<meta name="description" content="Sleep Mode Games is an indie studio making cozy, playful games. Coming soon.">
+<meta property="og:title" content="Sleep Mode Games">
+<meta property="og:description" content="Something's waking up. Coming soon.">
+<meta property="og:image" content="og.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#080815">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root { --bg: #080815; --gold: #f8c03e; --cream: #f4f1ea; --muted: #8b8fae; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, sans-serif;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  #sky { position: fixed; inset: 0; pointer-events: none; }
+  .star {
+    position: absolute; width: 2px; height: 2px; border-radius: 50%;
+    background: var(--cream); opacity: .15;
+    animation: twinkle var(--d) ease-in-out var(--delay) infinite;
+  }
+  @keyframes twinkle { 50% { opacity: var(--peak); } }
+  main {
+    position: relative;
+    width: min(92vw, 760px);
+    text-align: center;
+    padding: 24px 0 40px;
+  }
+  .logo {
+    display: block; width: 100%; height: auto;
+    animation: drift 7s ease-in-out infinite;
+  }
+  @keyframes drift { 50% { transform: translateY(-6px); } }
+  .soon {
+    margin-top: -2%;
+    font-size: clamp(15px, 2.4vw, 19px);
+    font-weight: 700;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+  .soon span { display: inline-block; animation: zz 2.4s ease-in-out infinite; }
+  .soon span:nth-child(2) { animation-delay: .3s; }
+  .soon span:nth-child(3) { animation-delay: .6s; }
+  @keyframes zz { 0%, 100% { opacity: .25; } 40% { opacity: 1; } }
+  p.tag {
+    margin-top: 14px;
+    font-size: clamp(15px, 2.2vw, 18px);
+    color: var(--muted);
+    line-height: 1.5;
+  }
+  footer {
+    position: fixed; bottom: 18px; left: 0; right: 0;
+    text-align: center; font-size: 12px; color: #4b4f6e; letter-spacing: .05em;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo, .star, .soon span { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div id="sky" aria-hidden="true"></div>
+<main>
+  <img class="logo" src="logo.webp" width="1536" height="1024" alt="Sleep Mode Games">
+  <div class="soon">Coming soon <span>.</span><span>.</span><span>.</span></div>
+  <p class="tag">Our first game is almost awake.</p>
+</main>
+<footer>© <span id="y">2026</span> Sleep Mode Games</footer>
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+  const sky = document.getElementById('sky');
+  for (let i = 0; i < 70; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() < .15 ? 3 : 2;
+    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;` +
+      `--d:${3+Math.random()*4}s;--delay:${-Math.random()*6}s;--peak:${.4+Math.random()*.5}`;
+    sky.appendChild(s);
+  }
+</script>
+</body>
+</html>
